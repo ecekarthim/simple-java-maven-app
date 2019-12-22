@@ -37,7 +37,7 @@
         <webXml>target/web.xml</webXml>
         <webResources>
             <resource>
-                <directory>src/main/webapp</directory>
+                <directory>src/main/java/com/mycompany/app/</directory>
                 <filtering>true</filtering>
             </resource>
         </webResources>
