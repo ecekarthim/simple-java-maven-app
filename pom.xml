@@ -33,8 +33,13 @@
         </configuration>-->
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-        <attachClasses>true</attachClasses>
-        <webXml>target/web.xml</webXml>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.mycompany.app.App</mainClass>
+            </manifest>
+          </archive>
         <webResources>
             <resource>
                 <directory>src/main/java/com/mycompany/app/</directory>
