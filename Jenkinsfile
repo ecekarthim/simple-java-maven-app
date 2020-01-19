@@ -1,11 +1,7 @@
 pipeline {
     agent any
     stages {
-    stage('Deploy') {
-    environment {
-        MAVEN_HOME = '/usr/share/maven'
-        JAVA_HOME= '/usr/local/openjdk-8'
-    }
+    stage('Artifcat') {
     steps {
         rtMavenResolver (
                 id: 'resolver-unique-id',
