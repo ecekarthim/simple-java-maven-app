@@ -10,7 +10,7 @@ pipeline {
                 )
             }
         }
-        stage ('upload') {
+        stage ('Publish to JFrog') {
             steps {
                 rtUpload (
                     serverId: "Devops-Jfrog",
@@ -18,7 +18,7 @@ pipeline {
                           "files": [
                             {
                               "pattern": "target/**.jar",
-                              "target": "libs-snapshot-local"
+                              "target": "libs-snapshot-local/my_app"
                             }
                           ]
                     }'''
