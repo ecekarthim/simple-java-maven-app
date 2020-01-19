@@ -1,44 +1,33 @@
 pipeline {
     agent any
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
-            }
-        }
-        
-        stage ('Exec Maven') {
-            steps {
-                rtMavenRun (
-                    tool: 'MAVEN_HOME', // Tool name from Jenkins configuration
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                )
-            }
-        }
 
-        stage ('Publish build info') {
-            steps {
-                rtPublishBuildInfo (
-                    serverId: "Devops-Jfrog"
-                )
-            }
-        }
-        
-        stage('Deliver') {
-            steps {
-                sh './jenkins/scripts/deliver.sh'
-            }
-        }
+stage('Deploy') {
+    environment {
+        MAVEN_HOME = '/usr/share/maven'
+        JAVA_HOME= '/usr/local/openjdk-8'
     }
+    steps {
+        rtMavenResolver (
+                id: 'resolver-unique-id',
+                serverId: 'Devops-Jfrog',
+                releaseRepo: 'libs-release-local',
+                snapshotRepo: 'libs-snapshot-local'
+        )
+        rtMavenDeployer (
+                id: 'deployer-unique-id',
+                serverId: 'Devops-Jfrog',
+                releaseRepo: 'libs-release-local',
+                snapshotRepo: 'libs-snapshot-local'
+        )
+        rtMavenRun (
+                pom: 'pom.xml',
+                goals: 'clean install',
+                resolverId: 'resolver-unique-id',
+                deployerId: 'deployer-unique-id'
+        )
+
+        // This works
+        rtPublishBuildInfo (
+            serverId: 'Devops-Jfrog'
+        )
 }
