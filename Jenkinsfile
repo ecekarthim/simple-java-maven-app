@@ -13,7 +13,7 @@ pipeline {
 
         stage ('Publish build info') {
             steps {
-                archiveArtifacts '*.jar'
+                archiveArtifacts 'target/*.jar'
                 rtPublishBuildInfo (
                     serverId: "Devops-Jfrog"
                 )
