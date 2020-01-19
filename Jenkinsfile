@@ -2,10 +2,6 @@ pipeline {
     agent any
     stages {
             stage('artifcats') {
-    environment {
-        MAVEN_HOME = '/usr/share/maven'
-        JAVA_HOME= '/usr/local/openjdk-8'
-    }
     steps {
         rtMavenResolver (
                 id: 'resolver-unique-id',
@@ -20,6 +16,7 @@ pipeline {
                 snapshotRepo: 'libs-snapshot-local'
         )
         rtMavenRun (
+                tool: 'MAVEN_HOME', // Tool name from Jenkins configuration
                 pom: 'pom.xml',
                 goals: 'help:effective-settings',
                 //goals: 'deploy',
