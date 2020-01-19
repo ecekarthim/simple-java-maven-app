@@ -19,18 +19,27 @@ pipeline {
                 releaseRepo: 'libs-release-local',
                 snapshotRepo: 'libs-snapshot-local'
         )
-        rtMavenRun (
-                pom: 'pom.xml',
-                goals: 'clean install',
-                resolverId: 'resolver-unique-id',
-                deployerId: 'deployer-unique-id'
-        )
-
-        // This works
-        rtPublishBuildInfo (
-            serverId: 'Devops-Jfrog'
-        )
           }
     }
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: 'MAVEN_HOME', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "deployer-unique-id",
+                    resolverId: "resolver-unique-id"
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "Devops-Jfrog"
+                )
+            }
+        }
+
 }
 }
