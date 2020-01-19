@@ -1,7 +1,7 @@
 pipeline {
     agent any
-
-stage('Deploy') {
+    stages {
+    stage('Deploy') {
     environment {
         MAVEN_HOME = '/usr/share/maven'
         JAVA_HOME= '/usr/local/openjdk-8'
@@ -32,4 +32,5 @@ stage('Deploy') {
         )
           }
     }
+}
 }
