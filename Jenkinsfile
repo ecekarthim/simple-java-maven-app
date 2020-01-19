@@ -30,4 +30,6 @@ stage('Deploy') {
         rtPublishBuildInfo (
             serverId: 'Devops-Jfrog'
         )
+          }
+    }
 }
