@@ -13,19 +13,28 @@ pipeline {
         stage ('upload') {
             steps {
                 rtUpload (
-                    serverId: "Devops-Jfrog"
+                    serverId: "Devops-Jfrog",
+                    spec: '''{
+                          "files": [
+                            {
+                              "pattern": "target/**.jar",
+                              "target": "libs-snapshot-local"
+                            }
+                          ]
+                    }'''
+                    
                 )
             }
         }
 
        
-        stage ('Publish build info') {
+        /*stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
                     serverId: "Devops-Jfrog"
                 )
             }
-        }
+        }*/
 
 }
 }
